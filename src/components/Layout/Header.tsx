@@ -2,8 +2,16 @@ import React from "react";
 import { AppBar, Box, Stack, Toolbar } from "@mui/material";
 import styled from "styled-components";
 import Menu from "./Menu";
+import AccountInfo from "./AccountInfo";
+import { useRouter } from "next/router";
 
 const Header = React.memo(() => {
+  const router = useRouter();
+
+  const backToHome = () => {
+    router.push("/home", undefined, { shallow: true });
+  };
+
   return (
     <AppBar position="static" elevation={0} sx={{ border: 0 }}>
       <Box px={2}>
@@ -14,7 +22,7 @@ const Header = React.memo(() => {
           <Stack position="relative" pb={0.5}>
             {/* <StyledLogo
               onClick={backToHome}
-              src="/assets/svgs/z1-logo2.svg"
+              src="/assets/logo.svg"
               alt="Logo"
             /> */}
           </Stack>
@@ -22,7 +30,7 @@ const Header = React.memo(() => {
             <Stack flexGrow={1} direction="row" alignItems="flex-end">
               <Menu />
             </Stack>
-            {/* <AccountInfo /> */}
+            <AccountInfo />
           </Box>
         </Toolbar>
       </Box>
