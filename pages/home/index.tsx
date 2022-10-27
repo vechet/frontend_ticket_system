@@ -1,8 +1,13 @@
+import Home from "./../../src/view/home/index";
+import Layout from "./../../src/components/Layout/index";
 import React from "react";
-import Index from "../../src/views/Home/Index";
 
-const index = () => {
-  return <Index />;
-};
+const Index = React.memo(() => {
+  return (
+    <Layout title="Home">
+      <Home />
+    </Layout>
+  );
+});
 
-export default index;
+export default Index;
