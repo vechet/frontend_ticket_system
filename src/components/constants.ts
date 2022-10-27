@@ -6,6 +6,12 @@ export enum MenuEnum {
 
 export const MENU_ITEM = [
   {
+    label: "Ticket",
+    value: MenuEnum.TICKET,
+    url: "/ticket",
+    newtab: false,
+  },
+  {
     label: "Project",
     value: MenuEnum.PROJECT,
     url: "/project",
@@ -15,12 +21,6 @@ export const MENU_ITEM = [
     label: "User",
     value: MenuEnum.USER,
     url: "/userAccount",
-    newtab: false,
-  },
-  {
-    label: "Ticket",
-    value: MenuEnum.TICKET,
-    url: "/ticket",
     newtab: false,
   },
 ];
