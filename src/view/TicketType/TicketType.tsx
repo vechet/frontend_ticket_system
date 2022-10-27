@@ -5,7 +5,7 @@ import useStates from "../../components/hooks";
 import { Header } from "../../components/SubMenu/Header";
 import { LeftMenu } from "../../components/SubMenu/LeftMenu";
 import { debounce } from "lodash";
-import { TICKET_MENUS } from "../../components/SubMenu/constants";
+import { TICKET_MENUS, TypeEnum } from "../../components/SubMenu/constants";
 
 const TicketType = React.memo(() => {
   const [state, setState]: any = useStates({
@@ -25,7 +25,7 @@ const TicketType = React.memo(() => {
     <StyledContent>
       <Header
         onSearch={handleSearch}
-        type="ticketType"
+        type={TypeEnum.TICKET_TYPE}
         onCreate={handleCreate}
       />
       <Stack flex={1} sx={{ py: 2, px: 4, backgroundColor: "#f8f8f8" }}>

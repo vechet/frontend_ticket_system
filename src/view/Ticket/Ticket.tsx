@@ -3,7 +3,7 @@ import { debounce } from "lodash";
 import React from "react";
 import styled from "styled-components";
 import useStates from "../../components/hooks";
-import { TICKET_MENUS } from "../../components/SubMenu/constants";
+import { TICKET_MENUS, TypeEnum } from "../../components/SubMenu/constants";
 import { Header } from "../../components/SubMenu/Header";
 import { LeftMenu } from "../../components/SubMenu/LeftMenu";
 
@@ -23,7 +23,11 @@ const Ticket = React.memo(() => {
 
   return (
     <StyledContent>
-      <Header onSearch={handleSearch} type="ticket" onCreate={handleCreate} />
+      <Header
+        onSearch={handleSearch}
+        type={TypeEnum.TICKET}
+        onCreate={handleCreate}
+      />
       <Stack flex={1} sx={{ py: 2, px: 4, backgroundColor: "#f8f8f8" }}>
         <Stack flex={1} direction="row">
           <Stack className="right-menu">

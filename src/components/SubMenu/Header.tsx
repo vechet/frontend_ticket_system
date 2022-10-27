@@ -9,6 +9,7 @@ import {
 import styled from "styled-components";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { TypeEnum } from "./constants";
 
 interface IProps {
   onSearch(value: string): any;
@@ -28,10 +29,20 @@ export const Header = React.memo((props: IProps) => {
           data-testid="create-new-form-button"
           onClick={onCreate}
         >
-          {type === "ticket"
+          {type === TypeEnum.TICKET
             ? "Create Ticket"
-            : type === "ticketType"
+            : type === TypeEnum.TICKET_TYPE
             ? "Create Ticket Type"
+            : type === TypeEnum.PROJECT
+            ? "Create Project"
+            : type === TypeEnum.PROJECT_TYPE
+            ? "Create Project Type"
+            : type === TypeEnum.PROJECT_PACKAGE
+            ? "Create Project Package"
+            : type === TypeEnum.USER_ACCOUNT
+            ? "Create User Account"
+            : type === TypeEnum.USER_ROLE
+            ? "Create User Role"
             : ""}
         </StyledButton>
       </Stack>
@@ -42,7 +53,7 @@ export const Header = React.memo((props: IProps) => {
   );
 });
 
-const SearchInput = React.memo(({ onSearch, layout }: any) => {
+const SearchInput = React.memo(({ onSearch }: any) => {
   const handleChange = (e: any) => {
     onSearch(e.target.value);
   };
