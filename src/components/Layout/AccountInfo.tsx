@@ -41,7 +41,6 @@ export default function AccountMenu() {
         id="account-menu"
         open={open}
         onClose={handleClose}
-        onClick={handleClose}
         PaperProps={{
           elevation: 0,
           sx: {
@@ -72,7 +71,15 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
+        <MenuItem
+          disableRipple
+          sx={{
+            cursor: "default",
+            ":hover": {
+              backgroundColor: "transparent",
+            },
+          }}
+        >
           <Stack direction="row">
             <Avatar />
             <Stack>
@@ -95,7 +102,7 @@ export default function AccountMenu() {
           <Avatar /> My account
         </MenuItem> */}
         <Divider />
-        <MenuItem sx={{ fontSize: "14px" }}>
+        <MenuItem onClick={handleClose} sx={{ fontSize: "14px" }}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
