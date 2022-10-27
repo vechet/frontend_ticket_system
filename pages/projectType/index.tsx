@@ -4,7 +4,7 @@ import ProjectType from "../../src/view/ProjectType";
 
 const index = () => {
   return (
-    <Layout title="Ticket Type">
+    <Layout title="Ticket System">
       <ProjectType />
     </Layout>
   );

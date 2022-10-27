@@ -4,7 +4,7 @@ import UserAccount from "../../src/view/UserAccount";
 
 const index = () => {
   return (
-    <Layout title="User Account">
+    <Layout title="Ticket System">
       <UserAccount />
     </Layout>
   );

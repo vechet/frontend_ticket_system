@@ -1,13 +1,23 @@
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 750,
-      md: 950,
-      lg: 1200,
-      xl: 1536,
+  typography: {
+    fontFamily: `"Inter", sans-serif, DefaultFont`,
+  },
+  components: {
+    MuiTableHead: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          "&& > .MuiTableRow-root": {
+            "& .MuiTableCell-root": {
+              fontWeight: 600,
+              fontSize: theme.typography.pxToRem(16),
+              borderBottomColor: "#EBEDF0",
+              backgroundColor: "#fff",
+            },
+          },
+        }),
+      },
     },
   },
 });

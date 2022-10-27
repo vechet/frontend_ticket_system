@@ -4,7 +4,7 @@ import UserRole from "../../src/view/UserRole";
 
 const index = () => {
   return (
-    <Layout title="User Role">
+    <Layout title="Ticket System">
       <UserRole />
     </Layout>
   );

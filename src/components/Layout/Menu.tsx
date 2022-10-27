@@ -2,8 +2,8 @@ import React from "react";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { checkActiveMenu } from "../utils";
-import { MENU_ITEM } from "../constants";
+import { checkActiveMenu } from "./utils";
+import { MENU_ITEM } from "./constants";
 
 const Menu = React.memo(() => {
   const router = useRouter();
