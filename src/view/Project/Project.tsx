@@ -8,7 +8,7 @@ import { PROJECT_MENUS, TypeEnum } from "../../components/SubMenu/constants";
 import { Header } from "../../components/SubMenu/Header";
 import { LeftMenu } from "../../components/SubMenu/LeftMenu";
 import { baseUrl } from "../../components/utils";
-import { CustomTable } from "../../components/Table/CustomTable";
+import { CustomTable } from "../../components/CustomTable/CustomTable";
 
 const Project = React.memo(() => {
   const [state, setState]: any = useStates({
