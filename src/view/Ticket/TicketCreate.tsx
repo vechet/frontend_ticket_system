@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Grid, Stack, Typography } from "@mui/material";
 import { map } from "lodash";
 import router from "next/router";
 import React, { useEffect } from "react";
@@ -16,15 +16,16 @@ import {
 } from "../../components/Fields";
 import { InputSelectField } from "../../components/InputSelectField";
 import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
+import { FORM_ERROR } from "final-form";
 
 const TicketCreate = React.memo(() => {
   const [state, setState]: any = useStates({
     priorities: [],
     projects: [],
     ticketTypes: [],
-    pLoading: false,
-    ptLoading: false,
-    tLoading: false,
+    pLoading: true,
+    ptLoading: true,
+    tLoading: true,
     error: "",
   });
   const { priorities, projects, ticketTypes, pLoading, ptLoading, tLoading } =
@@ -98,7 +99,7 @@ const TicketCreate = React.memo(() => {
 
       if (!data.success) {
         console.log(data.message);
-        return;
+        return { [FORM_ERROR]: data.message };
       }
       await 3600;
       router.replace(`/ticket`);
@@ -139,9 +140,19 @@ const TicketCreate = React.memo(() => {
       </Stack>
       <Stack flex={1}>
         <Form onSubmit={onSubmit}>
-          {({ handleSubmit, submitting, pristine }: FormRenderProps) => {
+          {({
+            handleSubmit,
+            submitError,
+            submitting,
+            pristine,
+          }: FormRenderProps) => {
             return (
               <StyledForm onSubmit={handleSubmit}>
+                {submitError && (
+                  <Alert severity="error" style={{ marginTop: 10 }}>
+                    {submitError}
+                  </Alert>
+                )}
                 <LoadingOverlay loading={tLoading || ptLoading || pLoading} />
                 <Box
                   sx={{
@@ -186,6 +197,8 @@ const TicketCreate = React.memo(() => {
                         label="Ticket Type"
                         removeDot
                         component={InputSelectField}
+                        validate={validateCRequired("Ticket Type is required")}
+                        required
                       />
                     </Grid>
                     <Grid item sm={12} md={4}>
@@ -195,6 +208,8 @@ const TicketCreate = React.memo(() => {
                         label="Project"
                         removeDot
                         component={InputSelectField}
+                        validate={validateCRequired("Project is required")}
+                        required
                       />
                     </Grid>
                     <Grid item sm={12} md={4}>
@@ -204,6 +219,8 @@ const TicketCreate = React.memo(() => {
                         label="Priority"
                         removeDot
                         component={InputSelectField}
+                        validate={validateCRequired("Priority is required")}
+                        required
                       />
                     </Grid>
                     <Grid item sm={12} md={12}>
@@ -213,6 +230,8 @@ const TicketCreate = React.memo(() => {
                         component={TextAreaInput}
                         multiline
                         rows={4}
+                        validate={validateCRequired("Description is required")}
+                        required
                       />
                     </Grid>
                   </Grid>

@@ -9,17 +9,12 @@ import {
 } from "@mui/material";
 
 export const InputSelectField = React.memo((props: any) => {
-  const {
-    label,
-    input,
-    options,
-    removeDot,
-    meta,
-    showMessage,
-    onChange,
-    ...resp
-  } = props;
-  const hasError = (meta.error || meta.submitError) && meta.touched;
+  const { label, input, options, removeDot, meta, onChange, ...resp } = props;
+
+  const hasError =
+    meta.touched &&
+    (meta.error || (meta.submitError && !meta.dirtySinceLastSubmit)) &&
+    !meta.submitting;
 
   return (
     <FormControl fullWidth error={hasError}>
@@ -58,11 +53,9 @@ export const InputSelectField = React.memo((props: any) => {
             </MenuItem>
           ))}
         </Select>
-        {showMessage && (
-          <FormHelperText>
-            {(hasError && meta.error) || meta.submitError}
-          </FormHelperText>
-        )}
+        <FormHelperText>
+          {(hasError && meta.error) || meta.submitError}
+        </FormHelperText>
       </Stack>
     </FormControl>
   );

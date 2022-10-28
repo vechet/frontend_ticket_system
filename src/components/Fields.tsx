@@ -21,10 +21,17 @@ export const TextAreaInput = React.memo(
         <TextField
           {...resp}
           {...input}
+          error={hasError}
+          helperText={hasError ? meta.error || meta.submitError : ""}
           margin="normal"
           multiline
           rows={rows}
           value={input.value || ""}
+          sx={{
+            "& .MuiFormHelperText-root": {
+              marginLeft: 0,
+            },
+          }}
           onChange={(e) => {
             input.onChange(e);
             onChange && onChange(e);
