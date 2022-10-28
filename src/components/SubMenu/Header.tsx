@@ -30,7 +30,7 @@ export const Header = React.memo((props: IProps) => {
           onClick={onCreate}
         >
           {type === TypeEnum.TICKET
-            ? "Create Ticket"
+            ? "Open Ticket"
             : type === TypeEnum.TICKET_TYPE
             ? "Create Ticket Type"
             : type === TypeEnum.PROJECT

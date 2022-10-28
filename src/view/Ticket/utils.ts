@@ -6,14 +6,34 @@ interface TableColumn {
 
 export const tableColumns: readonly TableColumn[] = [
   {
-    label: "Name",
-    column: "name",
-    width: "22.5%",
+    label: "Subject",
+    column: "summary",
+    width: "25%",
+  },
+  {
+    label: "Project",
+    column: "projectName",
+    width: "15%",
+  },
+  {
+    label: "Priority",
+    column: "priorityName",
+    width: "15%",
+  },
+  // {
+  //   label: "Severity",
+  //   column: "severity",
+  //   width: "15%",
+  // },
+  {
+    label: "Ticket Type",
+    column: "ticketTypeName",
+    width: "15%",
   },
   {
     label: "Status",
     column: "statusName",
-    width: "22.5%",
+    width: "10%",
   },
   // {
   //   label: "Actions",

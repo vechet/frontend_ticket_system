@@ -3,6 +3,9 @@ import { createTheme } from "@mui/material/styles";
 const theme = createTheme({
   typography: {
     fontFamily: `"Inter", sans-serif, DefaultFont`,
+    button: {
+      textTransform: "none",
+    },
   },
   components: {
     MuiTableHead: {
