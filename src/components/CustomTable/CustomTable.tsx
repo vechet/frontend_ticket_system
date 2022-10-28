@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Stack,
-  Typography,
   Table,
   TableCell,
   TableBody,
@@ -16,38 +15,38 @@ import Loader from "./Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import EmptyTable from "./EmptyTable";
 import { useRouter } from "next/router";
-import { tableColumns } from "../../view/Project/utils";
 
 interface IProps {
   items: any[];
   hasMore: any;
   onFetchMore(): void;
   loading: boolean;
+  tableColumns: any;
+  onEdit(item: any): void;
+  onViewDetail(item: any): void;
 }
 export const CustomTable: React.FC<IProps> = React.memo((props) => {
-  const { items, hasMore, loading, onFetchMore } = props;
-  console.log("items==", items);
-
+  const {
+    items,
+    hasMore,
+    loading,
+    onFetchMore,
+    tableColumns,
+    onEdit,
+    onViewDetail,
+  } = props;
   const router = useRouter();
 
   const handleAction = (action: any, item: any) => {
     if (action === "handle_edit") {
-      handleEdit(item);
+      onEdit(item);
       return;
     }
 
     if (action === "handle_view_detail") {
-      handleViewDetail(item);
+      onViewDetail(item);
       return;
     }
-  };
-
-  const handleEdit = (item: any) => {
-    router.push(`/project/${item.id}`);
-  };
-
-  const handleViewDetail = (item: any) => {
-    router.push(`/project/detail/${item.id}`);
   };
 
   return (

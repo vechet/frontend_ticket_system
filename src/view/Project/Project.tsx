@@ -9,6 +9,7 @@ import { Header } from "../../components/SubMenu/Header";
 import { LeftMenu } from "../../components/SubMenu/LeftMenu";
 import { baseUrl } from "../../components/utils";
 import { CustomTable } from "../../components/CustomTable/CustomTable";
+import { tableColumns } from "./utils";
 
 const Project = React.memo(() => {
   const [state, setState]: any = useStates({
@@ -63,6 +64,14 @@ const Project = React.memo(() => {
     router.push(`/project/create`);
   };
 
+  const handleEdit = (item: any) => {
+    router.push(`/project/${item.id}`);
+  };
+
+  const handleViewDetail = (item: any) => {
+    router.push(`/project/detail/${item.id}`);
+  };
+
   useEffect(() => {
     fetchProjects();
   }, []);
@@ -85,6 +94,9 @@ const Project = React.memo(() => {
               onFetchMore={onFetchMore}
               items={results}
               loading={loading}
+              tableColumns={tableColumns}
+              onEdit={handleEdit}
+              onViewDetail={handleViewDetail}
             />
           </Stack>
         </Stack>
