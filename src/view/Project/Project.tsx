@@ -8,7 +8,7 @@ import { PROJECT_MENUS, TypeEnum } from "../../components/SubMenu/constants";
 import { Header } from "../../components/SubMenu/Header";
 import { LeftMenu } from "../../components/SubMenu/LeftMenu";
 import { baseUrl } from "../../components/utils";
-import { ProjectTable } from "./Table/ProjectTable";
+import { CustomTable } from "../../components/Table/CustomTable";
 
 const Project = React.memo(() => {
   const [state, setState]: any = useStates({
@@ -80,7 +80,7 @@ const Project = React.memo(() => {
             <LeftMenu menus={PROJECT_MENUS} />
           </Stack>
           <Stack flex={1}>
-            <ProjectTable
+            <CustomTable
               hasMore={hasMore}
               onFetchMore={onFetchMore}
               items={results}

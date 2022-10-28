@@ -16,6 +16,7 @@ import Loader from "./Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import EmptyTable from "./EmptyTable";
 import { useRouter } from "next/router";
+import { tableColumns } from "../../view/Project/utils";
 
 interface IProps {
   items: any[];
@@ -23,8 +24,10 @@ interface IProps {
   onFetchMore(): void;
   loading: boolean;
 }
-export const ProjectTable: React.FC<IProps> = React.memo((props) => {
+export const CustomTable: React.FC<IProps> = React.memo((props) => {
   const { items, hasMore, loading, onFetchMore } = props;
+  console.log("items==", items);
+
   const router = useRouter();
 
   const handleAction = (action: any, item: any) => {
@@ -59,35 +62,48 @@ export const ProjectTable: React.FC<IProps> = React.memo((props) => {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell width={"25%"}>Name</TableCell>
-              <TableCell width={"20%"}>Project Type</TableCell>
-              <TableCell width={"20%"}>Project Package</TableCell>
-              <TableCell width={"15%"}>Website</TableCell>
-              <TableCell width={"10%"}>Status</TableCell>
+              {tableColumns.map((headCell: any) => {
+                return (
+                  <TableCell width={headCell?.width} key={headCell.column}>
+                    {headCell.label}
+                  </TableCell>
+                );
+              })}
               <TableCell align="center" width={"10%"}>
                 Actions
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {items?.map((item: any, index: number) => (
-              <TableRow
-                key={index}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.projectTypeName}</TableCell>
-                <TableCell>{item.projectPackageName}</TableCell>
-                <TableCell>{item.websiteUrl}</TableCell>
-                <TableCell>{item.statusName}</TableCell>
-                <TableCell align="center">
-                  <ActionButtonDropdown
-                    item={item}
-                    handleAction={handleAction}
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
+            {items?.map((item: any, index: number) => {
+              return (
+                <>
+                  <TableRow
+                    key={index}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                    }}
+                  >
+                    {tableColumns.map((headCell: any) => {
+                      return (
+                        <TableCell
+                          width={headCell?.width}
+                          key={headCell.column}
+                        >
+                          {item[headCell.column]}
+                        </TableCell>
+                      );
+                    })}
+                    <TableCell align="center">
+                      <ActionButtonDropdown
+                        item={item}
+                        handleAction={handleAction}
+                      />
+                    </TableCell>
+                  </TableRow>
+                </>
+              );
+            })}
             {isEmpty(items) && !loading && <EmptyTable />}
           </TableBody>
         </Table>
