@@ -6,8 +6,8 @@ interface TableColumn {
 
 export const tableColumns: readonly TableColumn[] = [
   {
-    label: "Name",
-    column: "name",
+    label: "User Name",
+    column: "userName",
     width: "22.5%",
   },
   {
