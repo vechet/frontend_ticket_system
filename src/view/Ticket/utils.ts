@@ -7,7 +7,7 @@ interface TableColumn {
 export const tableColumns: readonly TableColumn[] = [
   {
     label: "Subject",
-    column: "summary",
+    column: "subject",
     width: "25%",
   },
   {

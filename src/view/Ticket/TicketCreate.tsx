@@ -167,7 +167,7 @@ const TicketCreate = React.memo(() => {
                   <Grid container spacing={2}>
                     <Grid item sm={10} md={10}>
                       <Field
-                        name="summary"
+                        name="subject"
                         label="Subject"
                         size="small"
                         fullWidth
@@ -238,7 +238,7 @@ const TicketCreate = React.memo(() => {
                 </Box>
                 {/* <Stack spacing={1}>
                   <Field
-                    name="summary"
+                    name="subject"
                     label="Subject"
                     size="small"
                     fullWidth
