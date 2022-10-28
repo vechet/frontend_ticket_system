@@ -1,25 +1,80 @@
 import Stack from "@mui/material/Stack";
 import { debounce } from "lodash";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { CustomTable } from "../../components/CustomTable/CustomTable";
 import useStates from "../../components/hooks";
 import { TICKET_MENUS, TypeEnum } from "../../components/SubMenu/constants";
 import { Header } from "../../components/SubMenu/Header";
 import { LeftMenu } from "../../components/SubMenu/LeftMenu";
+import { baseUrl } from "../../components/utils";
+import { tableColumns } from "./utils";
 
 const Ticket = React.memo(() => {
   const [state, setState]: any = useStates({
     search: "",
+    loading: false,
+    hasMore: true,
+    error: "",
+    results: [],
+    skip: 0,
   });
-  const { search } = state;
+  const { search, loading, results, skip, hasMore } = state;
+  const router = useRouter();
+
+  const fetchTicketTypes = () => {
+    const url = `${baseUrl}/api/v1/Tickets?skip=0&limit=10`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((json) => {
+        setState({ results: json.data, loading: false });
+      })
+      .catch((error) => {
+        setState({ loading: false, error: error });
+      });
+  };
+
+  const onFetchMore = async () => {
+    const _skip = skip + 10;
+    setState({ loading: true, skip: _skip });
+    const url = `${baseUrl}/api/v1/Tickets?skip=${_skip}&limit=10`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.data.length < 10) {
+          setState({ hasMore: false, loading: false });
+          return;
+        }
+        setState({
+          results: [...results, ...json.data],
+          loading: false,
+        });
+      })
+      .catch((error) => {
+        setState({ loading: false, error: error });
+      });
+  };
 
   const handleSearch = debounce((value: string) => {
     setState({ search: value });
   }, 360);
 
   const handleCreate = () => {
-    console.log("handleCreate===");
+    router.push(`/ticket/create`);
   };
+
+  const handleEdit = (item: any) => {
+    router.push(`/ticket/${item.id}`);
+  };
+
+  const handleViewDetail = (item: any) => {
+    router.push(`/ticket/detail/${item.id}`);
+  };
+
+  useEffect(() => {
+    fetchTicketTypes();
+  }, []);
 
   return (
     <StyledContent>
@@ -33,7 +88,17 @@ const Ticket = React.memo(() => {
           <Stack className="right-menu">
             <LeftMenu menus={TICKET_MENUS} />
           </Stack>
-          <Stack flex={1}>dddd</Stack>
+          <Stack flex={1}>
+            <CustomTable
+              hasMore={hasMore}
+              onFetchMore={onFetchMore}
+              items={results}
+              loading={loading}
+              tableColumns={tableColumns}
+              onEdit={handleEdit}
+              onViewDetail={handleViewDetail}
+            />
+          </Stack>
         </Stack>
       </Stack>
     </StyledContent>
