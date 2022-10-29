@@ -14,6 +14,7 @@ import React, { useEffect } from "react";
 import { Field, Form, FormRenderProps } from "react-final-form";
 import styled from "styled-components";
 import { TextAreaInput } from "../../components/Fields";
+import { getDateFormat, getTimeFormat } from "../../components/helpers";
 import useStates from "../../components/hooks";
 import { InputSelectField } from "../../components/InputSelectField";
 import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
@@ -157,7 +158,9 @@ const TicketDetail = React.memo(() => {
                       <Typography sx={{ fontWeight: 600, fontSize: "1.5rem" }}>
                         {result.subject}
                       </Typography>
-                      <Typography>{result.projectName}</Typography>
+                      <Typography sx={{ color: "#42526E" }}>
+                        {result.projectName}
+                      </Typography>
                     </Stack>
                     <Stack sx={{ width: "200px" }}>
                       <Field
@@ -211,7 +214,13 @@ const TicketDetail = React.memo(() => {
                               <Typography
                                 sx={{ color: "#42526E", fontSize: "14px" }}
                               >
-                                {ticketAction.transactionDate}
+                                <span>
+                                  {getDateFormat(ticketAction.transactionDate)}
+                                </span>
+                                {` at `}
+                                <span style={{ color: "gray" }}>
+                                  {getTimeFormat(ticketAction.transactionDate)}
+                                </span>
                               </Typography>
                             </Stack>
                             <Typography sx={{ fontSize: "14px" }}>
