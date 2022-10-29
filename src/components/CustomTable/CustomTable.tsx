@@ -50,7 +50,7 @@ export const CustomTable: React.FC<IProps> = React.memo((props) => {
   };
 
   return (
-    <StyledWrapper>
+    <Stack>
       <TableContainer
         id="infinite-scroll"
         sx={{
@@ -77,7 +77,7 @@ export const CustomTable: React.FC<IProps> = React.memo((props) => {
             {items?.map((item: any, index: number) => {
               return (
                 <>
-                  <TableRow
+                  <StyledTableRow
                     key={index}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
@@ -86,6 +86,7 @@ export const CustomTable: React.FC<IProps> = React.memo((props) => {
                     {tableColumns.map((headCell: any) => {
                       return (
                         <TableCell
+                          onClick={() => onViewDetail(item)}
                           width={headCell?.width}
                           key={headCell.column}
                         >
@@ -94,12 +95,12 @@ export const CustomTable: React.FC<IProps> = React.memo((props) => {
                       );
                     })}
                     <TableCell align="center">
-                      <ActionButtonDropdown
+                      {/* <ActionButtonDropdown
                         item={item}
                         handleAction={handleAction}
-                      />
+                      /> */}
                     </TableCell>
-                  </TableRow>
+                  </StyledTableRow>
                 </>
               );
             })}
@@ -116,14 +117,28 @@ export const CustomTable: React.FC<IProps> = React.memo((props) => {
           <div></div>
         </InfiniteScroll>
       </TableContainer>
-    </StyledWrapper>
+    </Stack>
   );
 });
 
-const StyledWrapper = styled(Stack)`
+const StyledTableRow = styled(TableRow)`
   && {
-    p {
-      margin: 0px;
+    background-color: ${(p: any) => (p.selected ? "#EAECF0" : "#fff")};
+    &&:hover {
+      background: #eaecf0;
+      cursor: pointer;
+      .MuiSvgIcon-root {
+        color: #b2000f;
+        &&:disabled {
+        }
+      }
+    }
+    .MuiButtonBase-root {
+      &.MuiIconButton-root {
+        &.Mui-disabled {
+          opacity: 0.6;
+        }
+      }
     }
   }
 `;

@@ -7,12 +7,11 @@ import TicketDetail from "../../../src/view/Ticket/TicketDetail";
 const index = () => {
   const router = useRouter();
   const { query } = router;
-  const { id } = query;
 
   return (
     <Layout title="Ticket System">
-      {query.id !== "detail" && <TicketCreate />}
-      {query.id === "detail" && <TicketDetail />}
+      {query.id === "create" && <TicketCreate />}
+      {query.id !== "create" && <TicketDetail />}
     </Layout>
   );
 };

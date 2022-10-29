@@ -32,7 +32,7 @@ export const tableColumns: readonly TableColumn[] = [
   },
   {
     label: "Status",
-    column: "statusName",
+    column: "transactionTypeName",
     width: "10%",
   },
   // {

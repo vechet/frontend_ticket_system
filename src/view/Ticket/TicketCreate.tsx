@@ -88,6 +88,12 @@ const TicketCreate = React.memo(() => {
       if (!fields?.severity) {
         fields.severity = false;
       }
+      if (!fields?.dueDate) {
+        fields.dueDate = "2022-10-28T18:30:00.446Z";
+      }
+      if (!fields?.transactionType) {
+        fields.transactionType = 0;
+      }
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
