@@ -8,7 +8,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { map } from "lodash";
+import { FORM_ERROR } from "final-form";
+import { map, omit } from "lodash";
 import router, { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { Field, Form, FormRenderProps } from "react-final-form";
@@ -21,7 +22,7 @@ import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
 import { baseUrl } from "../../components/utils";
 import { validateCRequired } from "../../components/validations";
 
-const TicketDetail = React.memo(() => {
+const ReplyTicket = React.memo(() => {
   const [state, setState]: any = useStates({
     search: "",
     loading: false,
@@ -81,28 +82,19 @@ const TicketDetail = React.memo(() => {
 
   const onSubmit = async (fields: any) => {
     try {
-      // fields.statusId = 1;
-      // if (!fields?.severity) {
-      //   fields.severity = false;
-      // }
-      // if (!fields?.dueDate) {
-      //   fields.dueDate = "2022-10-28T18:30:00.446Z";
-      // }
-      // if (!fields?.transactionType) {
-      //   fields.transactionType = 0;
-      // }
-      // const requestOptions = {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(fields),
-      // };
-      // const url = `${baseUrl}/api/v1/TicketCreate`;
-      // const response = await fetch(url, requestOptions);
-      // const data = await response.json();
-      // if (!data.success) {
-      //   console.log(data.message);
-      //   return { [FORM_ERROR]: data.message };
-      // }
+      fields.ticketId = result.id;
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fields),
+      };
+      const url = `${baseUrl}/api/v1/ReplyTicket`;
+      const response = await fetch(url, requestOptions);
+      const data = await response.json();
+      if (!data.success) {
+        console.log(data.message);
+        return { [FORM_ERROR]: data.message };
+      }
       // await 3600;
       // router.replace(`/ticket`);
     } catch (err) {
@@ -117,7 +109,7 @@ const TicketDetail = React.memo(() => {
   useEffect(() => {
     fetchTicketTypes();
     fetchTransactionTypes();
-  }, [query]);
+  }, []);
 
   return (
     <StyledContent px={10} py={2}>
@@ -204,12 +196,12 @@ const TicketDetail = React.memo(() => {
                   {result?.ticketActionList?.map(
                     (ticketAction: any, index: any) => {
                       return (
-                        <Stack direction="row" spacing={2} py={2}>
+                        <Stack key={index} direction="row" spacing={2} py={2}>
                           <Avatar></Avatar>
                           <Stack>
                             <Stack direction="row" spacing={2} pb={1}>
                               <Typography sx={{ fontWeight: 600 }}>
-                                {ticketAction.opennedByName}
+                                {ticketAction.userName}
                               </Typography>
                               <Typography
                                 sx={{ color: "#42526E", fontSize: "14px" }}
@@ -251,4 +243,4 @@ const StyledContent = styled(Stack)`
   flex-direction: column;
 `;
 
-export default TicketDetail;
+export default ReplyTicket;

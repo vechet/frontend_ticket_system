@@ -84,16 +84,6 @@ const TicketCreate = React.memo(() => {
 
   const onSubmit = async (fields: any) => {
     try {
-      fields.statusId = 1;
-      if (!fields?.severity) {
-        fields.severity = false;
-      }
-      if (!fields?.dueDate) {
-        fields.dueDate = "2022-10-28T18:30:00.446Z";
-      }
-      if (!fields?.transactionType) {
-        fields.transactionType = 0;
-      }
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
