@@ -16,7 +16,8 @@ export const TextAreaInput = React.memo(
     return (
       <Stack>
         <Typography variant="body2" sx={{ color: "#667085", fontWeight: 500 }}>
-          {label} <span style={{ color: "red" }}>*</span>
+          {label && label}
+          {label && <span style={{ color: "red" }}>*</span>}
         </Typography>
         <TextField
           {...resp}

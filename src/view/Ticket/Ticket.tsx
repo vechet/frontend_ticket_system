@@ -69,7 +69,7 @@ const Ticket = React.memo(() => {
   };
 
   const handleViewDetail = (item: any) => {
-    router.push(`/ticket/detail/${item.id}`);
+    router.push(`/ticket/${item.id}`);
   };
 
   useEffect(() => {

@@ -28,7 +28,7 @@ export const InputSelectField = React.memo((props: any) => {
         {label && (
           <Typography variant="body2" className="text-label">
             {`${label} ${removeDot ? "" : ":"}`}{" "}
-            <span style={{ color: "red" }}>*</span>
+            {label && <span style={{ color: "red" }}>*</span>}
           </Typography>
         )}
         <Select

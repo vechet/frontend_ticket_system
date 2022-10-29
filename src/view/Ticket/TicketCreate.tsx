@@ -171,7 +171,7 @@ const TicketCreate = React.memo(() => {
                   }}
                 >
                   <Grid container spacing={2}>
-                    <Grid item sm={10} md={10}>
+                    <Grid item sm={9} md={9}>
                       <Field
                         name="subject"
                         label="Subject"
@@ -182,7 +182,7 @@ const TicketCreate = React.memo(() => {
                         required
                       />
                     </Grid>
-                    <Grid item sm={2} md={2}>
+                    <Grid item sm={3} md={3}>
                       <Stack
                         justifyContent="center"
                         alignItems="center"
@@ -242,51 +242,6 @@ const TicketCreate = React.memo(() => {
                     </Grid>
                   </Grid>
                 </Box>
-                {/* <Stack spacing={1}>
-                  <Field
-                    name="subject"
-                    label="Subject"
-                    size="small"
-                    fullWidth
-                    component={TextInput}
-                    validate={validateCRequired("Email is required")}
-                    required
-                  />
-                  <Field
-                    name="ticketTypeId"
-                    options={ticketTypes}
-                    label="Ticket Type"
-                    removeDot
-                    component={InputSelectField}
-                  />
-                  <Field
-                    name="projectId"
-                    options={projects}
-                    label="Project"
-                    removeDot
-                    component={InputSelectField}
-                  />
-                  <Field
-                    name="priorityId"
-                    options={priorities}
-                    label="Priority"
-                    removeDot
-                    component={InputSelectField}
-                  />
-                  <Field
-                    name="description"
-                    label="Description"
-                    component={TextAreaInput}
-                    multiline
-                    rows={4}
-                  />
-                  <Field
-                    name="severity"
-                    label="Severity"
-                    type="checkbox"
-                    component={RenderCheckBox}
-                  />
-                </Stack> */}
                 <Stack
                   justifyContent="flex-end"
                   direction="row"
@@ -316,11 +271,11 @@ const TicketCreate = React.memo(() => {
 const StyledForm = styled.form``;
 
 const StyledContent = styled(Stack)`
-  position: relative;
+  overflow: auto;
+  height: calc(100vh - 48px);
+  width: 100%;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  height: 100%;
 `;
 
 export default TicketCreate;
