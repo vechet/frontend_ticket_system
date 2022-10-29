@@ -94,7 +94,6 @@ const TicketCreate = React.memo(() => {
       const data = await response.json();
 
       if (!data.success) {
-        console.log(data.message);
         return { [FORM_ERROR]: data.message };
       }
       await 3600;
@@ -191,7 +190,6 @@ const TicketCreate = React.memo(() => {
                         name="ticketTypeId"
                         options={ticketTypes}
                         label="Ticket Type"
-                        removeDot
                         component={InputSelectField}
                         validate={validateCRequired("Ticket Type is required")}
                         required
@@ -202,7 +200,6 @@ const TicketCreate = React.memo(() => {
                         name="projectId"
                         options={projects}
                         label="Project"
-                        removeDot
                         component={InputSelectField}
                         validate={validateCRequired("Project is required")}
                         required
@@ -213,7 +210,6 @@ const TicketCreate = React.memo(() => {
                         name="priorityId"
                         options={priorities}
                         label="Priority"
-                        removeDot
                         component={InputSelectField}
                         validate={validateCRequired("Priority is required")}
                         required

@@ -92,11 +92,8 @@ const ReplyTicket = React.memo(() => {
       const response = await fetch(url, requestOptions);
       const data = await response.json();
       if (!data.success) {
-        console.log(data.message);
         return { [FORM_ERROR]: data.message };
       }
-      // await 3600;
-      // router.replace(`/ticket`);
     } catch (err) {
       console.log("err:: ", err);
     }
@@ -104,6 +101,24 @@ const ReplyTicket = React.memo(() => {
 
   const handleCancel = () => {
     router.push("/ticket");
+  };
+
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fields = {
+      ticketId: result.id,
+      transactionType: event?.target?.value,
+    };
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(fields),
+    };
+    const url = `${baseUrl}/api/v1/UpdateTicketTransactionType`;
+    const response = await fetch(url, requestOptions);
+    const data = await response.json();
+    if (!data.success) {
+      return { [FORM_ERROR]: data.message };
+    }
   };
 
   useEffect(() => {
@@ -158,8 +173,10 @@ const ReplyTicket = React.memo(() => {
                       <Field
                         name="transactionType"
                         options={transactionTypes}
-                        removeDot
                         component={InputSelectField}
+                        onChange={(e: any) => {
+                          handleChange(e);
+                        }}
                         validate={validateCRequired(
                           "Transaction Type is required"
                         )}
