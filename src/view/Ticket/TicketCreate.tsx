@@ -92,7 +92,7 @@ const TicketCreate = React.memo(() => {
         return { [FORM_ERROR]: data.message };
       }
       await 3600;
-      router.replace(`/ticket`);
+      router.replace(`/ticket/${data.data.id}`);
     } catch (err) {
       console.log("err:: ", err);
     }

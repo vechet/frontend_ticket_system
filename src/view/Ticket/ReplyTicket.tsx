@@ -106,6 +106,7 @@ const ReplyTicket = React.memo(() => {
     const fields = {
       ticketId: result.id,
       transactionType: event?.target?.value,
+      version: result.version,
     };
     const response = await instance.post("UpdateTicketTransactionType", fields);
     const { data } = response;
@@ -227,7 +228,12 @@ const ReplyTicket = React.memo(() => {
                                 </span>
                               </Typography>
                             </Stack>
-                            <Typography sx={{ fontSize: "14px" }}>
+                            <Typography
+                              sx={{
+                                fontSize: "14px",
+                                wordBreak: "break-all",
+                              }}
+                            >
                               {ticketAction.description}
                             </Typography>
                           </Stack>
