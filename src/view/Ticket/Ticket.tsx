@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { CustomTable } from "../../components/CustomTable/CustomTable";
 import useStates from "../../components/hooks";
+import SnackBarCustom from "../../components/SnackBarCustom";
 import { TICKET_MENUS, TypeEnum } from "../../components/SubMenu/constants";
 import { Header } from "../../components/SubMenu/Header";
 import { LeftMenu } from "../../components/SubMenu/LeftMenu";
@@ -19,8 +20,12 @@ const Ticket = React.memo(() => {
     error: "",
     results: [],
     skip: 0,
+    open: false,
+    message: "",
+    success: false,
   });
-  const { search, loading, results, skip, hasMore } = state;
+  const { search, loading, results, skip, hasMore, open, message, success } =
+    state;
   const router = useRouter();
 
   const fetchTicketTypes = async () => {
@@ -69,16 +74,39 @@ const Ticket = React.memo(() => {
     router.push(`/ticket/${item.id}`);
   };
 
+  const handleDelete = async (item: any) => {
+    try {
+      const fields = { id: item.id };
+      setState({ loading: true });
+      const response = await instance.post("TicketDelete", fields);
+      const { data } = response;
+      setState({
+        loading: false,
+        open: true,
+        message: data.message,
+        success: data.success,
+      });
+    } catch (err) {
+      console.log("err:: ", err);
+    }
+  };
+
   const handleViewDetail = (item: any) => {
     router.push(`/ticket/${item.id}`);
   };
 
   useEffect(() => {
     fetchTicketTypes();
-  }, []);
+  }, [message]);
 
   return (
     <StyledContent>
+      <SnackBarCustom
+        open={open}
+        message={message}
+        onClose={() => setState({ open: false })}
+        success={success}
+      />
       <Header
         onSearch={handleSearch}
         type={TypeEnum.TICKET}
@@ -97,6 +125,7 @@ const Ticket = React.memo(() => {
               loading={loading}
               tableColumns={tableColumns}
               onEdit={handleEdit}
+              onDelete={handleDelete}
               onViewDetail={handleViewDetail}
             />
           </Stack>

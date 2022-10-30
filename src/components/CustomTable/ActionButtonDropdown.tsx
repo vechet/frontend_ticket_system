@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import styled from "styled-components";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import PreviewIcon from "@mui/icons-material/Preview";
@@ -29,7 +30,6 @@ const ActionButtonDropdown = React.memo(({ item, handleAction }: IProps) => {
     <div>
       <StyledButton
         id="demo-customized-button"
-        data-testid={`action-button-dropdown-${item.name}`}
         aria-controls={open ? "demo-customized-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
@@ -59,7 +59,6 @@ const ActionButtonDropdown = React.memo(({ item, handleAction }: IProps) => {
       >
         <div>
           <MenuItem
-            data-testid="menu_item_edit"
             onClick={() => {
               handleClose("handle_edit");
             }}
@@ -69,7 +68,15 @@ const ActionButtonDropdown = React.memo(({ item, handleAction }: IProps) => {
             Edit
           </MenuItem>
           <MenuItem
-            data-testid={`btn-detail-group-${item.name}`}
+            onClick={() => {
+              handleClose("handle_delete");
+            }}
+            disableRipple
+          >
+            <DeleteIcon />
+            Delete
+          </MenuItem>
+          {/* <MenuItem
             onClick={() => {
               handleClose("handle_view_detail");
             }}
@@ -77,7 +84,7 @@ const ActionButtonDropdown = React.memo(({ item, handleAction }: IProps) => {
           >
             <PreviewIcon />
             View Detail
-          </MenuItem>
+          </MenuItem> */}
         </div>
       </StyledMenu>
     </div>

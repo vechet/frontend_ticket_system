@@ -17,6 +17,8 @@ import { InputSelectField } from "../../components/InputSelectField";
 import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
 import { FORM_ERROR } from "final-form";
 import { instance } from "../../components/TicketApi";
+import SnackBarCustom from "../../components/SnackBarCustom";
+import { sleep } from "../../components/utils";
 
 const TicketCreate = React.memo(() => {
   const [state, setState]: any = useStates({
@@ -27,9 +29,21 @@ const TicketCreate = React.memo(() => {
     ptLoading: true,
     tLoading: true,
     error: "",
+    open: false,
+    message: "",
+    success: false,
   });
-  const { priorities, projects, ticketTypes, pLoading, ptLoading, tLoading } =
-    state;
+  const {
+    priorities,
+    projects,
+    ticketTypes,
+    pLoading,
+    ptLoading,
+    tLoading,
+    open,
+    message,
+    success,
+  } = state;
 
   const fetchProjects = () => {
     instance
@@ -87,11 +101,13 @@ const TicketCreate = React.memo(() => {
       setState({ loading: true });
       const response = await instance.post("TicketCreate", fields);
       const { data } = response;
-      if (!data.success) {
-        setState({ loading: false });
-        return { [FORM_ERROR]: data.message };
-      }
-      await 3600;
+      setState({
+        loading: false,
+        open: true,
+        message: data.message,
+        success: data.success,
+      });
+      await sleep(1000);
       router.replace(`/ticket/${data.data.id}`);
     } catch (err) {
       console.log("err:: ", err);
@@ -110,6 +126,12 @@ const TicketCreate = React.memo(() => {
 
   return (
     <StyledContent px={10} py={2}>
+      <SnackBarCustom
+        open={open}
+        message={message}
+        onClose={() => setState({ open: false })}
+        success={success}
+      />
       <Stack pt={2} pb={3}>
         <Breadcrumbs aria-label="breadcrumb">
           <Link

@@ -71,7 +71,7 @@ const UserAccount = React.memo(() => {
   };
 
   const handleViewDetail = (item: any) => {
-    router.push(`/userAccount/detail/${item.id}`);
+    router.push(`/userAccount/${item.id}`);
   };
 
   useEffect(() => {

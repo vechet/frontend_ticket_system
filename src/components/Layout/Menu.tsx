@@ -19,7 +19,6 @@ const Menu = React.memo(() => {
       {MENU_ITEM.map((item: any, index: number) => {
         return (
           <StyledButtonMenu
-            data-testid={item.label}
             key={index}
             onClick={() => handleClickMenu(item)}
             selected={activeRoute === item.value}

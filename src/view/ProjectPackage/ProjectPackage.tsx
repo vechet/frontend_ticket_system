@@ -71,7 +71,7 @@ const ProjectPackage = React.memo(() => {
   };
 
   const handleViewDetail = (item: any) => {
-    router.push(`/projectPackage/detail/${item.id}`);
+    router.push(`/projectPackage/${item.id}`);
   };
 
   useEffect(() => {

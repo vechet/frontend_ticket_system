@@ -71,7 +71,7 @@ const UserRole = React.memo(() => {
   };
 
   const handleViewDetail = (item: any) => {
-    router.push(`/userRole/detail/${item.id}`);
+    router.push(`/userRole/${item.id}`);
   };
 
   useEffect(() => {

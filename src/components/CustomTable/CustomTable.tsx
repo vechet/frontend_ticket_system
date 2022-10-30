@@ -24,6 +24,7 @@ interface IProps {
   tableColumns: any;
   onEdit(item: any): void;
   onViewDetail(item: any): void;
+  onDelete?(item: any): void;
 }
 export const CustomTable: React.FC<IProps> = React.memo((props) => {
   const {
@@ -34,12 +35,18 @@ export const CustomTable: React.FC<IProps> = React.memo((props) => {
     tableColumns,
     onEdit,
     onViewDetail,
+    onDelete,
   } = props;
   const router = useRouter();
 
   const handleAction = (action: any, item: any) => {
     if (action === "handle_edit") {
       onEdit(item);
+      return;
+    }
+
+    if (action === "handle_delete") {
+      onDelete && onDelete(item);
       return;
     }
 
@@ -95,10 +102,10 @@ export const CustomTable: React.FC<IProps> = React.memo((props) => {
                       );
                     })}
                     <TableCell align="center">
-                      {/* <ActionButtonDropdown
+                      <ActionButtonDropdown
                         item={item}
                         handleAction={handleAction}
-                      /> */}
+                      />
                     </TableCell>
                   </StyledTableRow>
                 </>
@@ -128,7 +135,7 @@ const StyledTableRow = styled(TableRow)`
       background: #eaecf0;
       cursor: pointer;
       .MuiSvgIcon-root {
-        color: #b2000f;
+        /* color: #b2000f; */
         &&:disabled {
         }
       }

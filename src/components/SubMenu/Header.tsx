@@ -26,7 +26,6 @@ export const Header = React.memo((props: IProps) => {
           startIcon={<AddBoxOutlinedIcon />}
           size="small"
           variant="outlined"
-          data-testid="create-new-form-button"
           onClick={onCreate}
         >
           {type === TypeEnum.TICKET

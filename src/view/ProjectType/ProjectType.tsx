@@ -71,7 +71,7 @@ const ProjectType = React.memo(() => {
   };
 
   const handleViewDetail = (item: any) => {
-    router.push(`/projectType/detail/${item.id}`);
+    router.push(`/projectType/${item.id}`);
   };
 
   useEffect(() => {

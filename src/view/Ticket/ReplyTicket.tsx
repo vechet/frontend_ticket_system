@@ -19,6 +19,7 @@ import { getDateFormat, getTimeFormat } from "../../components/helpers";
 import useStates from "../../components/hooks";
 import { InputSelectField } from "../../components/InputSelectField";
 import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
+import SnackBarCustom from "../../components/SnackBarCustom";
 import { instance } from "../../components/TicketApi";
 import { baseUrl } from "../../components/utils";
 import { validateCRequired } from "../../components/validations";
@@ -34,6 +35,9 @@ const ReplyTicket = React.memo(() => {
     pLoading: true,
     transactionTypes: [],
     initialValues: {},
+    open: false,
+    message: "",
+    success: false,
   });
   const {
     search,
@@ -44,6 +48,9 @@ const ReplyTicket = React.memo(() => {
     tLoading,
     transactionTypes,
     initialValues,
+    open,
+    message,
+    success,
   } = state;
   const router = useRouter();
   const { query } = router;
@@ -87,11 +94,12 @@ const ReplyTicket = React.memo(() => {
       fields.ticketId = result.id;
       const response = await instance.post("ReplyTicket", fields);
       const { data } = response;
-      if (!data.success) {
-        setState({ loading: false });
-        return { [FORM_ERROR]: data.message };
-      }
-      setState({ loading: false });
+      setState({
+        loading: false,
+        open: true,
+        message: data.message,
+        success: data.success,
+      });
     } catch (err) {
       console.log("err:: ", err);
     }
@@ -110,20 +118,27 @@ const ReplyTicket = React.memo(() => {
     };
     const response = await instance.post("UpdateTicketTransactionType", fields);
     const { data } = response;
-    if (!data.success) {
-      setState({ loading: false });
-      return { [FORM_ERROR]: data.message };
-    }
-    setState({ loading: false });
+    setState({
+      loading: false,
+      open: true,
+      message: data.message,
+      success: data.success,
+    });
   };
 
   useEffect(() => {
     fetchTicketTypes();
     fetchTransactionTypes();
-  }, [loading]);
+  }, [loading, success]);
 
   return (
     <StyledContent px={10} py={2}>
+      <SnackBarCustom
+        open={open}
+        message={message}
+        onClose={() => setState({ open: false })}
+        success={success}
+      />
       <Stack pt={2} pb={3}>
         <Breadcrumbs aria-label="breadcrumb">
           <Link

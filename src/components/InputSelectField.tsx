@@ -42,12 +42,7 @@ export const InputSelectField = React.memo((props: any) => {
           }}
         >
           {options.map((item: any, index: number) => (
-            <MenuItem
-              dense
-              key={index}
-              value={item.value}
-              data-testid={item.label}
-            >
+            <MenuItem dense key={index} value={item.value}>
               {item.label}
             </MenuItem>
           ))}
