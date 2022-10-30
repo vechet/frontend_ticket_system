@@ -8,6 +8,7 @@ import useStates from "../../components/hooks";
 import { PROJECT_MENUS, TypeEnum } from "../../components/SubMenu/constants";
 import { Header } from "../../components/SubMenu/Header";
 import { LeftMenu } from "../../components/SubMenu/LeftMenu";
+import { instance } from "../../components/TicketApi";
 import { baseUrl } from "../../components/utils";
 import { tableColumns } from "./utils";
 
@@ -24,13 +25,14 @@ const ProjectPackage = React.memo(() => {
   const router = useRouter();
 
   const fetchProjectPackages = () => {
-    const url = `${baseUrl}/api/v1/ProjectPackages?skip=0&limit=10`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
+    setState({ loading: true });
+    instance
+      .get("ProjectPackages?skip=0&limit=10")
+      .then(function (response) {
+        const { data: json } = response;
         setState({ results: json.data, loading: false });
       })
-      .catch((error) => {
+      .catch(function (error) {
         setState({ loading: false, error: error });
       });
   };
@@ -38,10 +40,10 @@ const ProjectPackage = React.memo(() => {
   const onFetchMore = async () => {
     const _skip = skip + 10;
     setState({ loading: true, skip: _skip });
-    const url = `${baseUrl}/api/v1/ProjectPackages?skip=${_skip}&limit=10`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
+    instance
+      .get(`ProjectPackages?skip=${_skip}&limit=10`)
+      .then(function (response) {
+        const { data: json } = response;
         if (json.data.length < 10) {
           setState({ hasMore: false, loading: false });
           return;
@@ -51,7 +53,7 @@ const ProjectPackage = React.memo(() => {
           loading: false,
         });
       })
-      .catch((error) => {
+      .catch(function (error) {
         setState({ loading: false, error: error });
       });
   };

@@ -19,6 +19,7 @@ import { getDateFormat, getTimeFormat } from "../../components/helpers";
 import useStates from "../../components/hooks";
 import { InputSelectField } from "../../components/InputSelectField";
 import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
+import { instance } from "../../components/TicketApi";
 import { baseUrl } from "../../components/utils";
 import { validateCRequired } from "../../components/validations";
 
@@ -48,26 +49,26 @@ const ReplyTicket = React.memo(() => {
   const { query } = router;
 
   const fetchTicketTypes = () => {
-    const url = `${baseUrl}/api/v1/TicketDetail?id=${query.id}`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
+    instance
+      .get(`TicketDetail?id=${query.id}`)
+      .then(function (response) {
+        const { data: json } = response;
         setState({
           result: json.data,
           loading: false,
           initialValues: { transactionType: json.data.transactionType },
         });
       })
-      .catch((error) => {
+      .catch(function (error) {
         setState({ loading: false, error: error });
       });
   };
 
   const fetchTransactionTypes = () => {
-    const url = `${baseUrl}/api/v1/TicketTransactionTypes?skip=0&limit=100`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
+    instance
+      .get("TicketTransactionTypes?skip=0&limit=10")
+      .then(function (response) {
+        const { data: json } = response;
         setState({
           transactionTypes: map(json.data, (item) => {
             return { value: item?.id, label: item?.name };
@@ -75,25 +76,22 @@ const ReplyTicket = React.memo(() => {
           tLoading: false,
         });
       })
-      .catch((error) => {
+      .catch(function (error) {
         setState({ tLoading: false, error: error });
       });
   };
 
   const onSubmit = async (fields: any) => {
     try {
+      setState({ loading: true });
       fields.ticketId = result.id;
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(fields),
-      };
-      const url = `${baseUrl}/api/v1/ReplyTicket`;
-      const response = await fetch(url, requestOptions);
-      const data = await response.json();
+      const response = await instance.post("ReplyTicket", fields);
+      const { data } = response;
       if (!data.success) {
+        setState({ loading: false });
         return { [FORM_ERROR]: data.message };
       }
+      setState({ loading: false });
     } catch (err) {
       console.log("err:: ", err);
     }
@@ -104,27 +102,24 @@ const ReplyTicket = React.memo(() => {
   };
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ loading: true });
     const fields = {
       ticketId: result.id,
       transactionType: event?.target?.value,
     };
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(fields),
-    };
-    const url = `${baseUrl}/api/v1/UpdateTicketTransactionType`;
-    const response = await fetch(url, requestOptions);
-    const data = await response.json();
+    const response = await instance.post("UpdateTicketTransactionType", fields);
+    const { data } = response;
     if (!data.success) {
+      setState({ loading: false });
       return { [FORM_ERROR]: data.message };
     }
+    setState({ loading: false });
   };
 
   useEffect(() => {
     fetchTicketTypes();
     fetchTransactionTypes();
-  }, []);
+  }, [loading]);
 
   return (
     <StyledContent px={10} py={2}>
@@ -158,7 +153,7 @@ const ReplyTicket = React.memo(() => {
                     {submitError}
                   </Alert>
                 )}
-                {/* <LoadingOverlay loading={tLoading || ptLoading || pLoading} /> */}
+                <LoadingOverlay loading={tLoading || loading} />
                 <Stack>
                   <Stack direction="row" justifyContent="space-between">
                     <Stack>

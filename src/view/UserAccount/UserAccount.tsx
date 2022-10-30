@@ -8,6 +8,7 @@ import useStates from "../../components/hooks";
 import { TypeEnum, USER_MENUS } from "../../components/SubMenu/constants";
 import { Header } from "../../components/SubMenu/Header";
 import { LeftMenu } from "../../components/SubMenu/LeftMenu";
+import { instance } from "../../components/TicketApi";
 import { baseUrl } from "../../components/utils";
 import { tableColumns } from "./utils";
 
@@ -24,13 +25,14 @@ const UserAccount = React.memo(() => {
   const router = useRouter();
 
   const fetchUserAccounts = () => {
-    const url = `${baseUrl}/api/v1/UserAccounts?skip=0&limit=10`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
+    setState({ loading: true });
+    instance
+      .get("UserAccounts?skip=0&limit=10")
+      .then(function (response) {
+        const { data: json } = response;
         setState({ results: json.data, loading: false });
       })
-      .catch((error) => {
+      .catch(function (error) {
         setState({ loading: false, error: error });
       });
   };
@@ -38,10 +40,10 @@ const UserAccount = React.memo(() => {
   const onFetchMore = async () => {
     const _skip = skip + 10;
     setState({ loading: true, skip: _skip });
-    const url = `${baseUrl}/api/v1/UserAccounts?skip=${_skip}&limit=10`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
+    instance
+      .get(`UserAccounts?skip=${_skip}&limit=10`)
+      .then(function (response) {
+        const { data: json } = response;
         if (json.data.length < 10) {
           setState({ hasMore: false, loading: false });
           return;
@@ -51,7 +53,7 @@ const UserAccount = React.memo(() => {
           loading: false,
         });
       })
-      .catch((error) => {
+      .catch(function (error) {
         setState({ loading: false, error: error });
       });
   };

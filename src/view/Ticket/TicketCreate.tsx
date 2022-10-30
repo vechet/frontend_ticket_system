@@ -5,7 +5,6 @@ import React, { useEffect } from "react";
 import { Form, FormRenderProps, Field } from "react-final-form";
 import styled from "styled-components";
 import useStates from "../../components/hooks";
-import { baseUrl } from "../../components/utils";
 import { validateCRequired } from "../../components/validations";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
@@ -17,6 +16,7 @@ import {
 import { InputSelectField } from "../../components/InputSelectField";
 import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
 import { FORM_ERROR } from "final-form";
+import { instance } from "../../components/TicketApi";
 
 const TicketCreate = React.memo(() => {
   const [state, setState]: any = useStates({
@@ -32,10 +32,10 @@ const TicketCreate = React.memo(() => {
     state;
 
   const fetchProjects = () => {
-    const url = `${baseUrl}/api/v1/Projects?skip=0&limit=100`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
+    instance
+      .get("Projects?skip=0&limit=10")
+      .then(function (response) {
+        const { data: json } = response;
         setState({
           projects: map(json.data, (item) => {
             return { value: item?.id, label: item?.name };
@@ -43,16 +43,16 @@ const TicketCreate = React.memo(() => {
           pLoading: false,
         });
       })
-      .catch((error) => {
+      .catch(function (error) {
         setState({ pLoading: false, error: error });
       });
   };
 
   const fetchTicketTypes = () => {
-    const url = `${baseUrl}/api/v1/TicketTypes?skip=0&limit=100`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
+    instance
+      .get("TicketTypes?skip=0&limit=10")
+      .then(function (response) {
+        const { data: json } = response;
         setState({
           ticketTypes: map(json.data, (item) => {
             return { value: item?.id, label: item?.name };
@@ -60,16 +60,16 @@ const TicketCreate = React.memo(() => {
           tLoading: false,
         });
       })
-      .catch((error) => {
+      .catch(function (error) {
         setState({ tLoading: false, error: error });
       });
   };
 
   const fetchPriorities = () => {
-    const url = `${baseUrl}/api/v1/TicketPriorities?skip=0&limit=100`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
+    instance
+      .get("TicketPriorities?skip=0&limit=10")
+      .then(function (response) {
+        const { data: json } = response;
         setState({
           priorities: map(json.data, (item) => {
             return { value: item?.id, label: item?.name };
@@ -77,23 +77,18 @@ const TicketCreate = React.memo(() => {
           ptLoading: false,
         });
       })
-      .catch((error) => {
+      .catch(function (error) {
         setState({ ptLoading: false, error: error });
       });
   };
 
   const onSubmit = async (fields: any) => {
     try {
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(fields),
-      };
-      const url = `${baseUrl}/api/v1/TicketCreate`;
-      const response = await fetch(url, requestOptions);
-      const data = await response.json();
-
+      setState({ loading: true });
+      const response = await instance.post("TicketCreate", fields);
+      const { data } = response;
       if (!data.success) {
+        setState({ loading: false });
         return { [FORM_ERROR]: data.message };
       }
       await 3600;
