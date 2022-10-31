@@ -97,7 +97,7 @@ const Ticket = React.memo(() => {
 
   useEffect(() => {
     fetchTicketTypes();
-  }, [message]);
+  }, [success, message, open]);
 
   return (
     <StyledContent>

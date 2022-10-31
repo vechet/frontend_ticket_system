@@ -129,7 +129,7 @@ const ReplyTicket = React.memo(() => {
   useEffect(() => {
     fetchTicketTypes();
     fetchTransactionTypes();
-  }, [loading, success]);
+  }, [loading, success, message, open]);
 
   return (
     <StyledContent px={10} py={2}>
