@@ -83,32 +83,30 @@ export const CustomTable: React.FC<IProps> = React.memo((props) => {
           <TableBody>
             {items?.map((item: any, index: number) => {
               return (
-                <>
-                  <StyledTableRow
-                    key={index}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
-                  >
-                    {tableColumns.map((headCell: any) => {
-                      return (
-                        <TableCell
-                          onClick={() => onViewDetail(item)}
-                          width={headCell?.width}
-                          key={headCell.column}
-                        >
-                          {item[headCell.column]}
-                        </TableCell>
-                      );
-                    })}
-                    <TableCell align="center">
-                      <ActionButtonDropdown
-                        item={item}
-                        handleAction={handleAction}
-                      />
-                    </TableCell>
-                  </StyledTableRow>
-                </>
+                <StyledTableRow
+                  key={index}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                  }}
+                >
+                  {tableColumns.map((headCell: any) => {
+                    return (
+                      <TableCell
+                        onClick={() => onViewDetail(item)}
+                        width={headCell?.width}
+                        key={headCell.column}
+                      >
+                        {item[headCell.column]}
+                      </TableCell>
+                    );
+                  })}
+                  <TableCell align="center">
+                    <ActionButtonDropdown
+                      item={item}
+                      handleAction={handleAction}
+                    />
+                  </TableCell>
+                </StyledTableRow>
               );
             })}
             {isEmpty(items) && !loading && <EmptyTable />}
