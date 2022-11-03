@@ -5,7 +5,7 @@ export const instance = axios.create({
   baseURL: baseUrl,
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+    // Authorization: `Bearer ${localStorage.getItem("userToken")}`,
   },
   withCredentials: true,
 });

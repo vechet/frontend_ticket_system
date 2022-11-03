@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import { Stack } from "@mui/material";
+import router from "next/router";
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -19,6 +20,7 @@ export default function AccountMenu() {
   };
   const handleClose = () => {
     setAnchorEl(null);
+    router.replace("/auth");
   };
   return (
     <React.Fragment>

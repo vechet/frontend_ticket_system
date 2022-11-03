@@ -1,16 +1,56 @@
 import { Alert, Button, Stack, Typography } from "@mui/material";
+import router from "next/router";
 import React from "react";
 import { Field, Form, FormRenderProps } from "react-final-form";
 import styled from "styled-components";
 import { TextInput } from "../../components/Fields";
+import useStates from "../../components/hooks";
+import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
+import SnackBarCustom from "../../components/SnackBarCustom";
+import { instance } from "../../components/TicketApi";
+import { sleep } from "../../components/utils";
 import { validateCRequired } from "../../components/validations";
 
 const Login = React.memo(() => {
+  const [state, setState]: any = useStates({
+    error: "",
+    open: false,
+    message: "",
+    success: false,
+    loading: false,
+  });
+  const { open, message, success, loading } = state;
+
   const onSubmit = async (fields: any) => {
-    console.log("====", fields);
+    try {
+      setState({ loading: true });
+      const response = await instance.post("Login", fields);
+      const { data } = response;
+      setState({
+        loading: false,
+        open: true,
+        message: data.message,
+        success: data.success,
+      });
+
+      if (data.success) {
+        localStorage.setItem("userToken", data.data.token);
+        await sleep(1000);
+        router.replace("/ticket");
+      }
+    } catch (err) {
+      console.log("err:: ", err);
+    }
   };
+
   return (
     <StyledContent justifyContent="center" alignItems="center">
+      <SnackBarCustom
+        open={open}
+        message={message}
+        onClose={() => setState({ open: false })}
+        success={success}
+      />
       <Form onSubmit={onSubmit}>
         {({
           handleSubmit,
@@ -25,7 +65,7 @@ const Login = React.memo(() => {
                   {submitError}
                 </Alert>
               )}
-              {/* <LoadingOverlay loading={tLoading || ptLoading || pLoading} /> */}
+              <LoadingOverlay loading={loading} />
               <Stack alignItems="center" pb={5}>
                 <Typography variant="h3">Ticket System</Typography>
               </Stack>
