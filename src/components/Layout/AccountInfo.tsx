@@ -11,17 +11,51 @@ import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import { Stack } from "@mui/material";
 import router from "next/router";
+import { useEffect } from "react";
+import { instance } from "../TicketApi";
+import useStates from "../hooks";
 
 export default function AccountMenu() {
+  const [state, setState]: any = useStates({
+    loading: false,
+    error: "",
+    result: {},
+  });
+  const { result } = state;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
-    router.replace("/auth");
   };
+
+  const handleLogout = () => {
+    handleClose();
+    router.replace("/auth");
+    localStorage.setItem("userToken", "");
+  };
+
+  const fetchCurrentUser = async () => {
+    setState({ loading: true });
+    instance
+      .get("GetCurrentUser")
+      .then(function (response) {
+        const { data: json } = response;
+        setState({ result: json.data, loading: false });
+      })
+      .catch(function (error) {
+        setState({ loading: false, error: error });
+      });
+  };
+
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
+
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -86,7 +120,7 @@ export default function AccountMenu() {
             <Avatar />
             <Stack>
               <Typography sx={{ color: "rgb(0, 53, 102)", fontSize: "12px" }}>
-                Chuo Vechet
+                {result?.userName}
               </Typography>
               <Typography
                 sx={{
@@ -95,7 +129,7 @@ export default function AccountMenu() {
                   lineHeight: "16px",
                 }}
               >
-                vechet240@gmail.com
+                {result?.email || "N/A"}
               </Typography>
             </Stack>
           </Stack>
@@ -104,7 +138,7 @@ export default function AccountMenu() {
           <Avatar /> My account
         </MenuItem> */}
         <Divider />
-        <MenuItem onClick={handleClose} sx={{ fontSize: "14px" }}>
+        <MenuItem onClick={handleLogout} sx={{ fontSize: "14px" }}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
