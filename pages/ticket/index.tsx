@@ -1,6 +1,6 @@
 import React from "react";
-import { CheckAuth } from "..";
 import Layout from "../../src/components/Layout";
+import { CheckAuth } from "../../src/components/utils";
 import Ticket from "../../src/view/Ticket";
 
 const index = () => {

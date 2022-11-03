@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckAuth } from "..";
+import { CheckAuth } from "../../src/components/utils";
 import Layout from "../../src/components/Layout";
 import ProjectType from "../../src/view/ProjectType";
 

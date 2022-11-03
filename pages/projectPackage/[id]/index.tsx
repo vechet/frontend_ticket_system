@@ -3,7 +3,7 @@ import React from "react";
 import Layout from "../../../src/components/Layout";
 import ProjectPackageDetail from "../../../src/view/ProjectPackage/ProjectPackageDetail";
 import ProjectPackageCreate from "../../../src/view/ProjectPackage/ProjectPackageCreate";
-import { CheckAuth } from "../..";
+import { CheckAuth } from "../../../src/components/utils";
 
 const index = () => {
   CheckAuth();

@@ -3,14 +3,8 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const Home: NextPage = () => {
-  CheckAuth();
-  return null;
-};
-
-export default Home;
-
-export const CheckAuth = () => {
   const router = useRouter();
+
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
       router.replace("/ticket");
@@ -18,4 +12,8 @@ export const CheckAuth = () => {
       router.replace("/auth");
     }
   }, []);
+
+  return null;
 };
+
+export default Home;

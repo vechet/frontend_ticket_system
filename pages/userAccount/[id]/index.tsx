@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { CheckAuth } from "../..";
+import { CheckAuth } from "../../../src/components/utils";
 import Layout from "../../../src/components/Layout";
 import UserAccountCreate from "../../../src/view/UserAccount/UserAccountCreate";
 import UserAccountDetail from "../../../src/view/UserAccount/UserAccountDetail";

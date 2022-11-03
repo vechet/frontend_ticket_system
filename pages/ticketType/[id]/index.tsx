@@ -3,7 +3,7 @@ import React from "react";
 import Layout from "../../../src/components/Layout";
 import TicketTypeDetail from "../../../src/view/TicketType/TicketTypeDetail";
 import TicketTypeCreate from "../../../src/view/TicketType/TicketTypeCreate";
-import { CheckAuth } from "../..";
+import { CheckAuth } from "../../../src/components/utils";
 
 const index = () => {
   CheckAuth();
