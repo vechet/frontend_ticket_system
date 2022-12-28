@@ -9,7 +9,6 @@ import { TypeEnum, USER_MENUS } from "../../components/SubMenu/constants";
 import { Header } from "../../components/SubMenu/Header";
 import { LeftMenu } from "../../components/SubMenu/LeftMenu";
 import { instance } from "../../components/TicketApi";
-import { baseUrl } from "../../components/utils";
 import { tableColumns } from "./utils";
 
 const UserRole = React.memo(() => {
@@ -28,12 +27,12 @@ const UserRole = React.memo(() => {
     setState({ loading: true });
     instance
       .get("UserRoles?skip=0&limit=10")
-      .then(function (response) {
-        const { data: json } = response;
+      .then((res) => {
+        const { data: json } = res;
         setState({ results: json.data, loading: false });
       })
-      .catch(function (error) {
-        setState({ loading: false, error: error });
+      .catch((err) => {
+        setState({ loading: false, error: err });
       });
   };
 
@@ -42,8 +41,8 @@ const UserRole = React.memo(() => {
     setState({ loading: true, skip: _skip });
     instance
       .get(`UserRoles?skip=${_skip}&limit=10`)
-      .then(function (response) {
-        const { data: json } = response;
+      .then((res) => {
+        const { data: json } = res;
         if (json.data.length < 10) {
           setState({ hasMore: false, loading: false });
           return;
@@ -53,8 +52,8 @@ const UserRole = React.memo(() => {
           loading: false,
         });
       })
-      .catch(function (error) {
-        setState({ loading: false, error: error });
+      .catch((err) => {
+        setState({ loading: false, error: err });
       });
   };
 

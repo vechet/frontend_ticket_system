@@ -32,12 +32,12 @@ const Ticket = React.memo(() => {
     setState({ loading: true });
     instance
       .get("Tickets?skip=0&limit=10")
-      .then(function (response) {
-        const { data: json } = response;
+      .then((res) => {
+        const { data: json } = res;
         setState({ results: json.data, loading: false });
       })
-      .catch(function (error) {
-        setState({ loading: false, error: error });
+      .catch((err) => {
+        setState({ loading: false, error: err });
       });
   };
 
@@ -46,8 +46,8 @@ const Ticket = React.memo(() => {
     setState({ loading: true, skip: _skip });
     instance
       .get(`Tickets?skip=${_skip}&limit=10`)
-      .then(function (response) {
-        const { data: json } = response;
+      .then((res) => {
+        const { data: json } = res;
         if (json.data.length < 10) {
           setState({ hasMore: false, loading: false });
           return;
@@ -57,8 +57,8 @@ const Ticket = React.memo(() => {
           loading: false,
         });
       })
-      .catch(function (error) {
-        setState({ loading: false, error: error });
+      .catch((err) => {
+        setState({ loading: false, error: err });
       });
   };
 

@@ -43,12 +43,12 @@ export default function AccountMenu() {
     setState({ loading: true });
     instance
       .get("GetCurrentUser")
-      .then(function (response) {
-        const { data: json } = response;
+      .then((res) => {
+        const { data: json } = res;
         setState({ result: json.data, loading: false });
       })
-      .catch(function (error) {
-        setState({ loading: false, error: error });
+      .catch((err) => {
+        setState({ loading: false, error: err });
       });
   };
 

@@ -48,8 +48,8 @@ const TicketCreate = React.memo(() => {
   const fetchProjects = () => {
     instance
       .get("Projects?skip=0&limit=10")
-      .then(function (response) {
-        const { data: json } = response;
+      .then((res) => {
+        const { data: json } = res;
         setState({
           projects: map(json.data, (item) => {
             return { value: item?.id, label: item?.name };
@@ -57,16 +57,16 @@ const TicketCreate = React.memo(() => {
           pLoading: false,
         });
       })
-      .catch(function (error) {
-        setState({ pLoading: false, error: error });
+      .catch((err) => {
+        setState({ pLoading: false, error: err });
       });
   };
 
   const fetchTicketTypes = () => {
     instance
       .get("TicketTypes?skip=0&limit=10")
-      .then(function (response) {
-        const { data: json } = response;
+      .then((res) => {
+        const { data: json } = res;
         setState({
           ticketTypes: map(json.data, (item) => {
             return { value: item?.id, label: item?.name };
@@ -74,16 +74,16 @@ const TicketCreate = React.memo(() => {
           tLoading: false,
         });
       })
-      .catch(function (error) {
-        setState({ tLoading: false, error: error });
+      .catch((err) => {
+        setState({ tLoading: false, error: err });
       });
   };
 
   const fetchPriorities = () => {
     instance
       .get("TicketPriorities?skip=0&limit=10")
-      .then(function (response) {
-        const { data: json } = response;
+      .then((res) => {
+        const { data: json } = res;
         setState({
           priorities: map(json.data, (item) => {
             return { value: item?.id, label: item?.name };
@@ -91,8 +91,8 @@ const TicketCreate = React.memo(() => {
           ptLoading: false,
         });
       })
-      .catch(function (error) {
-        setState({ ptLoading: false, error: error });
+      .catch((err) => {
+        setState({ ptLoading: false, error: err });
       });
   };
 

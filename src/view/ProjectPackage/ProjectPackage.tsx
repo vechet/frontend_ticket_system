@@ -9,7 +9,6 @@ import { PROJECT_MENUS, TypeEnum } from "../../components/SubMenu/constants";
 import { Header } from "../../components/SubMenu/Header";
 import { LeftMenu } from "../../components/SubMenu/LeftMenu";
 import { instance } from "../../components/TicketApi";
-import { baseUrl } from "../../components/utils";
 import { tableColumns } from "./utils";
 
 const ProjectPackage = React.memo(() => {
@@ -28,12 +27,12 @@ const ProjectPackage = React.memo(() => {
     setState({ loading: true });
     instance
       .get("ProjectPackages?skip=0&limit=10")
-      .then(function (response) {
-        const { data: json } = response;
+      .then((res) => {
+        const { data: json } = res;
         setState({ results: json.data, loading: false });
       })
-      .catch(function (error) {
-        setState({ loading: false, error: error });
+      .catch((err) => {
+        setState({ loading: false, error: err });
       });
   };
 
@@ -42,8 +41,8 @@ const ProjectPackage = React.memo(() => {
     setState({ loading: true, skip: _skip });
     instance
       .get(`ProjectPackages?skip=${_skip}&limit=10`)
-      .then(function (response) {
-        const { data: json } = response;
+      .then((res) => {
+        const { data: json } = res;
         if (json.data.length < 10) {
           setState({ hasMore: false, loading: false });
           return;
@@ -53,8 +52,8 @@ const ProjectPackage = React.memo(() => {
           loading: false,
         });
       })
-      .catch(function (error) {
-        setState({ loading: false, error: error });
+      .catch((err) => {
+        setState({ loading: false, error: err });
       });
   };
 

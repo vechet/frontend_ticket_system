@@ -9,7 +9,6 @@ import { TICKET_MENUS, TypeEnum } from "../../components/SubMenu/constants";
 import { CustomTable } from "../../components/CustomTable/CustomTable";
 import { tableColumns } from "./utils";
 import { useRouter } from "next/router";
-import { baseUrl } from "../../components/utils";
 import { instance } from "../../components/TicketApi";
 
 const TicketType = React.memo(() => {
@@ -28,12 +27,12 @@ const TicketType = React.memo(() => {
     setState({ loading: true });
     instance
       .get("TicketTypes?skip=0&limit=10")
-      .then(function (response) {
-        const { data: json } = response;
+      .then((res) => {
+        const { data: json } = res;
         setState({ results: json.data, loading: false });
       })
-      .catch(function (error) {
-        setState({ loading: false, error: error });
+      .catch((err) => {
+        setState({ loading: false, error: err });
       });
   };
 
@@ -42,8 +41,8 @@ const TicketType = React.memo(() => {
     setState({ loading: true, skip: _skip });
     instance
       .get(`TicketTypes?skip=${_skip}&limit=10`)
-      .then(function (response) {
-        const { data: json } = response;
+      .then((res) => {
+        const { data: json } = res;
         if (json.data.length < 10) {
           setState({ hasMore: false, loading: false });
           return;
@@ -53,8 +52,8 @@ const TicketType = React.memo(() => {
           loading: false,
         });
       })
-      .catch(function (error) {
-        setState({ loading: false, error: error });
+      .catch((err) => {
+        setState({ loading: false, error: err });
       });
   };
 

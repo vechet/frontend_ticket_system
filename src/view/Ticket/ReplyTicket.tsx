@@ -21,7 +21,6 @@ import { InputSelectField } from "../../components/InputSelectField";
 import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
 import SnackBarCustom from "../../components/SnackBarCustom";
 import { instance } from "../../components/TicketApi";
-import { baseUrl } from "../../components/utils";
 import { validateCRequired } from "../../components/validations";
 
 const ReplyTicket = React.memo(() => {
@@ -58,24 +57,24 @@ const ReplyTicket = React.memo(() => {
   const fetchTicketTypes = () => {
     instance
       .get(`TicketDetail?id=${query.id}`)
-      .then(function (response) {
-        const { data: json } = response;
+      .then((res) => {
+        const { data: json } = res;
         setState({
           result: json.data,
           loading: false,
           initialValues: { transactionType: json.data.transactionType },
         });
       })
-      .catch(function (error) {
-        setState({ loading: false, error: error });
+      .catch((err) => {
+        setState({ loading: false, error: err });
       });
   };
 
   const fetchTransactionTypes = () => {
     instance
       .get("TicketTransactionTypes?skip=0&limit=10")
-      .then(function (response) {
-        const { data: json } = response;
+      .then((res) => {
+        const { data: json } = res;
         setState({
           transactionTypes: map(json.data, (item) => {
             return { value: item?.id, label: item?.name };
@@ -83,8 +82,8 @@ const ReplyTicket = React.memo(() => {
           tLoading: false,
         });
       })
-      .catch(function (error) {
-        setState({ tLoading: false, error: error });
+      .catch((err) => {
+        setState({ tLoading: false, error: err });
       });
   };
 
